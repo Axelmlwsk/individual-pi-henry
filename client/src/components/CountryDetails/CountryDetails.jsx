@@ -12,11 +12,10 @@ function CountryDetails() {
       .get(`http://localhost:3001/countries/${id}`)
       .then((data) => setCountry(data.data))
       .catch((err) => {
-        console.log(err);
         setError("Country not Found");
       });
   }, [id]);
-  console.log(error);
+  console.log(country);
   return (
     <div className={css.container}>
       {error ? (
@@ -32,7 +31,19 @@ function CountryDetails() {
           <h3>Poblation: {country.population}</h3>
           <h3>Area: {country.area} km2</h3>
           <p>Tourist Activities</p>
-          <ul>{!country.TouristActivities ? null : country.TouristActivities.map((activity) => <li key={activity.id}>{activity.name}</li>)}</ul>
+          <ul className={css.activitiesContainer}>
+            {!country.TouristActivities
+              ? null
+              : country.TouristActivities.map((activity) => (
+                  <li className={css.activity} key={activity.id}>
+                    <h4>ID: {activity.id}</h4>
+                    <h4>Name: {activity.name}</h4>
+                    <h4>Duration: {activity.duration}</h4>
+                    <h4>Difficulty: {activity.difficulty}</h4>
+                    <h4>Season: {activity.season}</h4>
+                  </li>
+                ))}
+          </ul>
         </div>
       )}
     </div>

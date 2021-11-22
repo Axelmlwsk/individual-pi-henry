@@ -6,18 +6,38 @@ import Pagination from "../Pagination/Pagination";
 
 function Countries() {
   let allCountries = useSelector((state) => state.countries);
-  const filt = useSelector((state) => state.filters);
+  const filters = useSelector((state) => state.filters);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
   const [showedCountries, setShowedCountries] = useState([]);
-  const [filters, setFilters] = useState({});
 
   const { search, continents, alph, popu, activities } = filters;
 
   useEffect(() => {
     setShowedCountries(allCountries);
   }, [allCountries]);
+
+  useEffect(() => {
+    let countries = allCountries;
+
+    if (search !== "") {
+      setCurrentPage(1);
+    }
+
+    if (search) {
+      return setShowedCountries((prevstate) => [...prevstate].filter((country) => country.name.startsWith(search)));
+    } else setShowedCountries(countries);
+
+    if (continents) {
+      setCurrentPage(1);
+      return setShowedCountries((prevstate) => [...prevstate].filter((country) => continents.includes(country.continent)));
+    } else setShowedCountries(countries);
+
+    if (alph) {
+      return setShowedCountries((prevstate) => (alph === "a-z" ? [...prevstate].sort((a, b) => a.name.localeCompare(b.name)) : countries.sort((a, b) => b.name.localeCompare(a.name))));
+    } else setShowedCountries(countries);
+  }, [filters]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
