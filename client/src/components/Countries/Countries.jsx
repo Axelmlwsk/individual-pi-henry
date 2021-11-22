@@ -8,41 +8,56 @@ function Countries() {
   //si el array que tiene los paises filtrados segun el input es mayor a 0, lo retorno porque quiere decir que se esta buscando algo, si no retorno el array con todos los paises.
   let AllCountries = useSelector((state) => state.countries);
   const filters = useSelector((state) => state.filters);
+  const { search, continents, alph, popu, activity } = filters;
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
   const [showedCountries, setShowedCountries] = useState([]);
 
-  const bySearch = (countries) => {
-    if (filters.search) {
-      return countries.filter((country) => country.name.startsWith(filters.search));
-    } else {
-      return countries;
-    }
-  };
+  // const byContinent = (countries) => {
+  //   if (filters.continents) {
+  //     return countries.filter((country) => filters.continents.includes(country.continent));
+  //   } else {
+  //     return countries;
+  //   }
+  // };
 
-  const byContinent = (countries) => {
-    if (filters.continents) {
-      return countries.filter((country) => filters.continents.includes(country.continent));
-    } else {
-      return countries;
-    }
-  };
+  // const byOrder = (countries) => {
+  //   if (filters.alph) {
+  //     return filters.alph === "a-z" ? countries.sort((a, b) => a.name.localeCompare(b.name)) : countries.sort((a, b) => b.name.localeCompare(a.name));
+  //   } else return countries;
+  // };
 
-  const byOrder = (countries) => {
-    if (filters.alph) {
-      return filters.alph === "a-z" ? countries.sort((a, b) => a.name.localeCompare(b.name)) : countries.sort((a, b) => b.name.localeCompare(a.name));
-    } else return countries;
-  };
+  // const byPopu = (countries) => {
+  //   if (filters.popu) {
+  //     return filters.popu === "h-l" ? countries.sort((a, b) => a.population - b.population) : countries.sort((a, b) => b.population - a.population);
+  //   } else return countries;
+  // };
 
   useEffect(() => {
+    if (search) {
+      //fixea un bug donde si avanzas en la paginacion y buscas un pais no muestra nada.
+      if (currentPage !== 1) {
+        setCurrentPage(1);
+      }
+    }
+
+    const bySearch = (countries) => {
+      // if (currentPage !== 1) {
+      //   setCurrentPage(1);
+      // }
+
+      if (search) {
+        return countries.filter((country) => country.name.startsWith(search));
+      } else {
+        return countries;
+      }
+    };
+
     let result = AllCountries;
     result = bySearch(result);
-    result = byContinent(result);
-    result = byOrder(result);
-    console.log(result);
     setShowedCountries(result);
-  }, [showedCountries, AllCountries, bySearch, byContinent, byOrder]);
+  }, [setShowedCountries, AllCountries, search]);
 
   const indexOfLastPost = currentPage * postsPerPage; //10
   const indexOfFirstPost = indexOfLastPost - postsPerPage; //0

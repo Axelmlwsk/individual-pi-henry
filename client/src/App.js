@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { Route } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar/Navbar";
-import { listCountries } from "./actions";
+import { listCountries, listActivities } from "./actions";
 import Landing from "./views/Landing/Landing";
 
 function App() {

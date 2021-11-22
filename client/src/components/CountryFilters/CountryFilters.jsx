@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { filters } from "../../actions";
 import css from "./CountryFilters.module.css";
 function CountryFilters() {
@@ -10,7 +10,10 @@ function CountryFilters() {
     continents: "",
     alph: "",
     popu: "",
+    activity: "",
   });
+
+  const activities = useSelector((state) => state.activities);
 
   const handleChangeContinent = (e) => {
     if (e.target.checked) {
@@ -91,6 +94,7 @@ function CountryFilters() {
       </div>
       <div className={css.alphFilter}>
         <span>Sort alphabetically</span>
+        <br />
         <select value={filtering.alph} onChange={handleChangeOrder} name="alph">
           <option value="">none</option>
           <option value="a-z">A-Z</option>
@@ -103,6 +107,17 @@ function CountryFilters() {
           <option value="">none</option>
           <option value="h-l">highest to lowest</option>
           <option value="l-h">lowest to highest</option>
+        </select>
+      </div>
+      <div className={css.activityFilter}>
+        <span>Sort by tourist activity</span>
+        <select value={filtering.activities} onChange={handleChangeOrder} name="activities">
+          <option value="">none</option>
+          {activities.map((activity, key) => (
+            <option key={activity.id} value={activity.name}>
+              {activity.name}
+            </option>
+          ))}
         </select>
       </div>
     </div>

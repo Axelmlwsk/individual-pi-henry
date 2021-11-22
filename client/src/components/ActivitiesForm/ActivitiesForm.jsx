@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import css from "./ActivitiesForm.module.css";
 import axios from "axios";
-
+import { capitalizeFirstLetter } from "../../utils/index";
 function ActivitesForm() {
   const [activityData, setActivityData] = useState({ name: "", difficulty: "1", duration: "60", season: "Summer", selectedCountries: [] });
   const [errors, setErrors] = useState({});
@@ -84,13 +84,13 @@ function ActivitesForm() {
         </div>
         {errors.countries ? <p className={css.red}>{errors.countries}</p> : null} {/* RENDERIZADO DE ERRORES EN SELECCION DE PAISES*/}
         <div className={css.countries}>
-          {countries.map((country) => {
+          {countries.map((country, key) => {
             return (
-              <div className={css.prueba}>
+              <div key={country.ID} className={css.prueba}>
                 <input className={css.countryCheckbox} value={country.ID} onChange={handleChange} id={country.ID} name={country.name} type="checkbox" />
                 <label className={css.labelCountry} htmlFor={country.ID}>
                   <img className={css.flag} alt="flag" src={country.img} />
-                  <span className={css.name}>{country.name}</span>
+                  <span className={css.name}>{capitalizeFirstLetter(country.name)}</span>
                 </label>
               </div>
             );

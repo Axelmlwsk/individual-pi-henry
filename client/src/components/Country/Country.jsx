@@ -2,12 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { CgDetailsMore } from "react-icons/cg";
 import css from "./Country.module.css";
-
+import { capitalizeFirstLetter } from "../../utils/index";
 function Country({ name, flag, continent, ID }) {
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   return (
     <div className={css.countryContainer}>
       <div className={css.imgContainer}>
