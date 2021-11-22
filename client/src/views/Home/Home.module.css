@@ -1,0 +1,26 @@
+.home {
+  display: flex;
+  min-height: 92vh;
+}
+
+.interface {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+}
+
+.search {
+  padding-bottom: 50px;
+  flex: 1;
+}
+.countryFilters {
+  flex: 4;
+}
+.countriesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 5;
+}

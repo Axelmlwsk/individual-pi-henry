@@ -1,0 +1,75 @@
+.container {
+  width: 100%;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 70%;
+  height: 50vh;
+  margin-bottom: 20px;
+
+  box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+}
+.container input {
+  width: 50%;
+}
+.countries {
+  margin-top: 20px;
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  align-items: center;
+  justify-content: space-evenly;
+  grid-gap: 20px;
+}
+
+.formActivities {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.searchContainer input {
+  margin-left: 20px;
+}
+.red {
+  color: red;
+}
+
+.countryCheckbox {
+  display: none;
+}
+
+.labelCountry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 200px;
+  min-width: 100px;
+  box-sizing: border-box;
+  padding: 5px;
+}
+.prueba {
+  width: 100px;
+}
+.labelCountry:before {
+  content: "";
+}
+
+.countryCheckbox:checked + .labelCountry {
+  box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
+}
+
+.flag {
+  width: 100%;
+}

@@ -1,0 +1,32 @@
+.navbar {
+  width: 100vw;
+  height: 8vh;
+  background-color: var(--dark-blue);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  width: 150px;
+  margin-left: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.right {
+  margin-right: 50px;
+}
+
+.link {
+  font-size: 1.2rem;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.logo {
+  font-family: "Halant", serif;
+  font-size: 1.5rem;
+  color: var(--white);
+  font-weight: 800;
+}

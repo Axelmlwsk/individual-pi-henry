@@ -1,0 +1,12 @@
+.container {
+  padding: 15px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.index {
+  border: none;
+  margin: 2px;
+  cursor: pointer;
+}
