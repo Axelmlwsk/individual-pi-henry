@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import css from "./ActivitiesForm.module.css";
 import axios from "axios";
-import { capitalizeFirstLetter } from "../../utils/index";
+
 function ActivitesForm() {
   const [activityData, setActivityData] = useState({ name: "", difficulty: "1", duration: "60", season: "Summer", selectedCountries: [] });
   const [errors, setErrors] = useState({});
-  const countries = useSelector((store) => store.countries);
+  const [input, setInput] = useState("");
+  const [countries, setCountries] = useState([]);
+
+  const allCountries = useSelector((store) => store.countries);
 
   function validate(input) {
     if (input.selectedCountries.length === 0) {
@@ -20,6 +23,10 @@ function ActivitesForm() {
       setErrors((prevstate) => ({ ...prevstate, name: "Invalid Characters" }));
     }
   }
+
+  useEffect(() => {
+    setCountries(allCountries);
+  }, []);
 
   useEffect(() => {
     validate(activityData); //cada vez que se actualiza los inputs del usuario, se valida la data.
@@ -60,6 +67,12 @@ function ActivitesForm() {
     }
     setActivityData({ ...activityData, [e.target.name]: e.target.value });
   };
+
+  const handleSearch = (e) => {
+    setInput(e.target.value);
+    setCountries(countries.filter((country) => country.name.startsWith(input.toLowerCase)));
+  };
+
   return (
     <div className={css.container}>
       <form className={css.formActivities} onSubmit={handleSubmit}>
@@ -67,6 +80,7 @@ function ActivitesForm() {
           <p>Write your tourist activity</p>
           <input value={activityData.name} onChange={handleChange} name="name" placeholder="name" type="text" />
           {errors.name ? <span className={css.red}>{errors.name}</span> : null} {/* RENDERIZADO ERRORES EN NOMBRE */}
+          <p>Set Difficulty</p>
           <input value={activityData.difficulty} onChange={handleChange} name="difficulty" placeholder="difficulty" min="1" max="5" type="range" />
           <span>{activityData.difficulty}</span>
           <input value={activityData.duration} onChange={handleChange} name="duration" min="1" max="30000" placeholder="duration" type="number" />
@@ -80,7 +94,7 @@ function ActivitesForm() {
         </div>
         <div className={css.searchContainer}>
           <span>Search country</span>
-          <input type="text" placeholder="Find countries" />
+          <input value={input} name="input" onChange={handleSearch} type="text" placeholder="Find countries" />
         </div>
         {errors.countries ? <p className={css.red}>{errors.countries}</p> : null} {/* RENDERIZADO DE ERRORES EN SELECCION DE PAISES*/}
         <div className={css.countries}>
@@ -90,7 +104,7 @@ function ActivitesForm() {
                 <input className={css.countryCheckbox} value={country.ID} onChange={handleChange} id={country.ID} name={country.name} type="checkbox" />
                 <label className={css.labelCountry} htmlFor={country.ID}>
                   <img className={css.flag} alt="flag" src={country.img} />
-                  <span className={css.name}>{capitalizeFirstLetter(country.name)}</span>
+                  <span className={css.name}>{country.name}</span>
                 </label>
               </div>
             );
