@@ -19,31 +19,18 @@ function Countries() {
   }, [allCountries]);
 
   useEffect(() => {
-    let countries = allCountries;
-
-    if (search !== "") {
-      setCurrentPage(1);
-    }
-
     if (search) {
+      // setCurrentPage(1);
       return setShowedCountries((prevstate) => [...prevstate].filter((country) => country.name.startsWith(search)));
-    } else setShowedCountries(countries);
-
-    if (continents) {
-      setCurrentPage(1);
-      return setShowedCountries((prevstate) => [...prevstate].filter((country) => continents.includes(country.continent)));
-    } else setShowedCountries(countries);
-
-    if (alph) {
-      return setShowedCountries((prevstate) => (alph === "a-z" ? [...prevstate].sort((a, b) => a.name.localeCompare(b.name)) : countries.sort((a, b) => b.name.localeCompare(a.name))));
-    } else setShowedCountries(countries);
-  }, [filters]);
+    } else setShowedCountries(allCountries);
+  }, [filters, search, allCountries]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = showedCountries.slice(indexOfFirstPost, indexOfLastPost).map((country) => {
     return <Country key={country.ID} ID={country.ID} name={country.name} flag={country.img} continent={country.continent} />;
   });
+
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
