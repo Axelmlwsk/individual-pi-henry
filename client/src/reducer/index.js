@@ -33,10 +33,10 @@ export const getCountries = () => {
 export const getActivities = () => {
   return async (dispatch) => {
     const activities = await axios.get("http://localhost:3001/activities");
-    const deleteDuplicated = [...new Set(activities.data)];
+
     dispatch({
       type: "LIST_ACTIVITIES",
-      payload: deleteDuplicated,
+      payload: activities.data,
     });
   };
 };
