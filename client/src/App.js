@@ -2,11 +2,8 @@ import "./App.css";
 import Home from "./views/Home/Home.jsx";
 import TouristActivities from "./views/TouristActivities/TouristActivities";
 import CountryDetails from "./components/CountryDetails/CountryDetails";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
-import { getCountries } from "./reducer";
+import { Route } from "react-router-dom";
 import Landing from "./views/Landing/Landing";
 
 function App() {

@@ -57,9 +57,7 @@
   box-sizing: border-box;
   padding: 5px;
 }
-.prueba {
-  width: 100px;
-}
+
 .labelCountry:before {
   content: "";
 }

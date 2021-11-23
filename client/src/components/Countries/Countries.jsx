@@ -4,7 +4,7 @@ import { getCountries } from "../../reducer";
 import Country from "../Country/Country";
 import css from "./Countries.module.css";
 import Pagination from "../Pagination/Pagination";
-
+import { setFilteredCountries } from "../../actions";
 const _ = require("lodash");
 
 function Countries() {
@@ -27,28 +27,24 @@ function Countries() {
   }, [allCountries]);
 
   useEffect(() => {
+    setCurrentPage(1);
     let filtered = allCountries;
 
     if (search) {
-      setCurrentPage(1);
       filtered = _.filter(filtered, (country) => {
         return country.name.startsWith(search);
       });
     }
     if (alph) {
-      setCurrentPage(1);
       filtered = alph === "a-z" ? _.sortBy(filtered, ["name"]) : _.sortBy(filtered, ["name"]).reverse();
     }
     if (continents) {
-      setCurrentPage(1);
       filtered = _.filter(filtered, (country) => continents.includes(country.continent));
     }
     if (popu) {
-      setCurrentPage(1);
       filtered = popu === "l-h" ? _.sortBy(filtered, ["population"]) : _.sortBy(filtered, ["population"]).reverse();
     }
     if (activity) {
-      setCurrentPage(1);
       filtered = _.filter(filtered, (country) => {
         for (let i = 0; i < country.TouristActivities.length; i++) {
           return country.TouristActivities[i].name === activity;
@@ -56,7 +52,8 @@ function Countries() {
       });
     }
     setShowedCountries(filtered);
-  }, [filters, allCountries, search, continents, alph, activity, popu]);
+    dispatch(setFilteredCountries(filtered));
+  }, [filters, allCountries, search, continents, alph, activity, popu, dispatch]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;

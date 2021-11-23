@@ -1,10 +1,11 @@
-import { LIST_COUNTRIES, FILTERS, LIST_ACTIVITIES } from "../actions";
+import { LIST_COUNTRIES, FILTERS, LIST_ACTIVITIES, SET_FILTERED_COUNTRIES } from "../actions";
 import axios from "axios";
 
 const initialState = {
   countries: [],
   filters: {},
   activities: [],
+  filteredCountries: [],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -15,6 +16,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return { ...state, activities: payload };
     case FILTERS:
       return { ...state, filters: payload };
+    case SET_FILTERED_COUNTRIES: {
+      return { ...state, filteredCountries: payload };
+    }
     default:
       return state;
   }

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { CgDetailsMore } from "react-icons/cg";
-import css from "./Country.module.css";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import css from "./Country.module.css";
 function Country({ name, flag, continent, ID }) {
   return (
     <div className={css.countryContainer}>
