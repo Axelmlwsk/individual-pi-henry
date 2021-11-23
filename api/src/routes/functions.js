@@ -1,7 +1,7 @@
 const { Country, TouristActivity } = require("../db");
 
 const getAllCountries = async (req, res) => {
-  const countries = await Country.findAll();
+  const countries = await Country.findAll({ include: TouristActivity });
   res.send(countries);
 };
 

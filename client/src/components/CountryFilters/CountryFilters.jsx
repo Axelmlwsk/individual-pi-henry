@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filters } from "../../actions";
+import { getActivities } from "../../reducer";
 import css from "./CountryFilters.module.css";
 function CountryFilters() {
   const dispatch = useDispatch();
@@ -12,6 +13,10 @@ function CountryFilters() {
     popu: "",
     activity: "",
   });
+
+  useEffect(() => {
+    dispatch(getActivities());
+  }, [dispatch]);
 
   const activities = useSelector((state) => state.activities);
 
@@ -111,7 +116,7 @@ function CountryFilters() {
       </div>
       <div className={css.activityFilter}>
         <span>Sort by tourist activity</span>
-        <select value={filtering.activities} onChange={handleChangeOrder} name="activities">
+        <select value={filtering.activity} onChange={handleChangeOrder} name="activity">
           <option value="">none</option>
           {activities.map((activity, key) => (
             <option key={activity.id} value={activity.name}>

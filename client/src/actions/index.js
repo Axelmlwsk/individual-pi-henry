@@ -1,14 +1,11 @@
 export const LIST_COUNTRIES = "LIST_COUNTRIES";
 export const FILTERS = "FILTERS";
-export const LIST_ACTIVITIES = "LIST_ACTIVITES";
-export const listCountries = (payload) => {
-  return { type: LIST_COUNTRIES, payload };
-};
-
-export const listActivities = (payload) => {
-  return { type: LIST_ACTIVITIES, payload };
-};
-
+export const LIST_ACTIVITIES = "LIST_ACTIVITIES";
+export const SET_FILTERED_COUNTRIES = "SET_FILTERED_COUNTRIES";
 export const filters = (payload) => {
   return { type: FILTERS, payload };
+};
+
+export const setFilteredCountries = (payload) => {
+  return { type: SET_FILTERED_COUNTRIES, payload };
 };

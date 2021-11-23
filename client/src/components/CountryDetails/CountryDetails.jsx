@@ -15,7 +15,6 @@ function CountryDetails() {
         setError("Country not Found");
       });
   }, [id]);
-  console.log(country);
   return (
     <div className={css.container}>
       {error ? (

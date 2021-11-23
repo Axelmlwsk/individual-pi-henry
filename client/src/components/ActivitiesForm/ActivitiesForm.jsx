@@ -26,7 +26,7 @@ function ActivitesForm() {
 
   useEffect(() => {
     setCountries(allCountries);
-  }, []);
+  }, [allCountries]);
 
   useEffect(() => {
     validate(activityData); //cada vez que se actualiza los inputs del usuario, se valida la data.

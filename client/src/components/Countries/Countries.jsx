@@ -1,29 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getCountries } from "../../reducer";
 import Country from "../Country/Country";
 import css from "./Countries.module.css";
 import Pagination from "../Pagination/Pagination";
+const _ = require("lodash");
 
 function Countries() {
-  let allCountries = useSelector((state) => state.countries);
   const filters = useSelector((state) => state.filters);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(9);
   const [showedCountries, setShowedCountries] = useState([]);
 
-  const { search, continents, alph, popu, activities } = filters;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCountries());
+  }, [dispatch, filters]);
+
+  const allCountries = useSelector((state) => state.countries);
+  const { search, continents, alph, popu, activity } = filters;
 
   useEffect(() => {
     setShowedCountries(allCountries);
   }, [allCountries]);
 
   useEffect(() => {
+    let filtered = allCountries;
+
     if (search) {
-      // setCurrentPage(1);
-      return setShowedCountries((prevstate) => [...prevstate].filter((country) => country.name.startsWith(search)));
-    } else setShowedCountries(allCountries);
-  }, [filters, search, allCountries]);
+      setCurrentPage(1);
+      filtered = _.filter(filtered, (country) => {
+        return country.name.startsWith(search);
+      });
+    }
+    if (alph) {
+      filtered = alph === "a-z" ? _.sortBy(filtered, ["name"]) : _.sortBy(filtered, ["name"]).reverse();
+    }
+    if (continents) {
+      filtered = _.filter(filtered, (country) => continents.includes(country.continent));
+    }
+    if (popu) {
+      filtered = popu === "l-h" ? _.sortBy(filtered, ["population"]) : _.sortBy(filtered, ["population"]).reverse();
+    }
+    if (activity) {
+      filtered = _.filter(filtered, (country) => {
+        for (let i = 0; i < country.TouristActivities.length; i++) {
+          return country.TouristActivities[i].name === activity;
+        }
+      });
+    }
+    setShowedCountries(filtered);
+  }, [filters, allCountries, search, continents, alph, activity, popu]);
 
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
