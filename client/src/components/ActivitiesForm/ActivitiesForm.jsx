@@ -1,30 +1,46 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import css from "./ActivitiesForm.module.css";
 import axios from "axios";
-import { getCountries } from "../../reducer/index";
+import { getActivities, getCountries } from "../../reducer/index";
 import { capitalizeFirstLetter } from "../../utils/functions";
+import { BiSearchAlt } from "react-icons/bi";
 function ActivitesForm() {
   const [activityData, setActivityData] = useState({ name: "", difficulty: "1", duration: "60", season: "Summer", selectedCountries: [] });
   const [errors, setErrors] = useState({});
   const [countries, setCountries] = useState([]);
 
   const allCountries = useSelector((store) => store.countries);
+  const activities = useSelector((store) => store.activities);
 
   const dispatch = useDispatch();
 
-  function validate(input) {
-    if (input.selectedCountries.length === 0) {
-      setErrors((prevstate) => ({ ...prevstate, countries: "Pick one or more countries" }));
-    }
-    if (!input.name) {
-      setErrors((prevstate) => ({ ...prevstate, name: "Name is required" }));
-    } else if (!/^.{0,15}$/.test(input.name)) {
-      setErrors((prevstate) => ({ ...prevstate, name: "Name is too long" }));
-    } else if (!/[a-zA-Z0-9]/.test(input.name)) {
-      setErrors((prevstate) => ({ ...prevstate, name: "Invalid Characters" }));
-    }
-  }
+  const validate = useCallback(
+    (input) => {
+      if (input.selectedCountries.length === 0) {
+        setErrors((prevstate) => ({ ...prevstate, countries: "Pick one or more countries" }));
+      }
+      if (!input.name) {
+        setErrors((prevstate) => ({ ...prevstate, name: "Name is required" }));
+      } else if (!/^.{0,15}$/.test(input.name)) {
+        setErrors((prevstate) => ({ ...prevstate, name: "Name is too long" }));
+      } else if (!/[a-zA-Z0-9]/.test(input.name)) {
+        setErrors((prevstate) => ({ ...prevstate, name: "Invalid Characters" }));
+      }
+
+      console.log(activities);
+      for (let i = 0; i < activities.length; i++) {
+        if (activities[i].name === input.name) {
+          setErrors((prevstate) => ({ ...prevstate, name: "Ya existe esa actividad" }));
+        }
+        // if (activities[i].name === input.name) {
+        //   console.log("Hola");
+        //   setErrors((prevstate) => ({ ...prevstate, name: "Ya existe esa actividad" }));
+        // }
+      }
+    },
+    [activities]
+  );
 
   useEffect(() => {
     setCountries(allCountries); //seteo los paises segun el filtro que se realizo en home.
@@ -36,11 +52,11 @@ function ActivitesForm() {
 
   useEffect(() => {
     validate(activityData); //cada vez que se actualiza los inputs del usuario, se valida la data.
-  }, [activityData]);
+  }, [activityData, validate]);
 
   const handleSearch = (e) => {
     const countries = allCountries;
-    const filtrados = countries.filter((country) => country.name.startsWith(e.target.value));
+    const filtrados = countries.filter((country) => country.name.startsWith(e.target.value.toLowerCase()));
     setCountries(filtrados);
   };
 
@@ -49,9 +65,10 @@ function ActivitesForm() {
 
     if (Object.keys(errors).length === 0 && errors.constructor === Object) {
       await axios.post("http://localhost:3001/activity", activityData);
-      setActivityData((prevstate) => ({ ...prevstate, selectedCountries: [] }));
     }
+    setActivityData({ ...activityData, name: "" });
     //con esta funcion lo que busco hacer es destildar los checkbox una vez que el formulario es enviado y limpiar el array de paises seleccionados.
+    dispatch(getActivities());
   };
 
   const handleChange = (e) => {
@@ -66,7 +83,6 @@ function ActivitesForm() {
       } else {
         //si se hizo uncheck, guardo el ID del pais, y filtro del array de paises a ese pais para eliminarlo.
         const countryID = e.target.value;
-
         return setActivityData((prevstate) => ({ ...prevstate, selectedCountries: prevstate.selectedCountries.filter((country) => country !== countryID) }));
       }
     }
@@ -105,16 +121,19 @@ function ActivitesForm() {
           </button>
         </div>
         {errors.countries ? <p className={css.red}>{errors.countries}</p> : null} {/* RENDERIZADO DE ERRORES EN SELECCION DE PAISES*/}
-        <input type="text" onChange={handleSearch} />
+        <div className={css.search}>
+          <input type="text" onChange={handleSearch} />
+          <BiSearchAlt />
+        </div>
         <div className={css.countries}>
           {countries.map((country, key) => {
             return (
-              <div key={country.ID} className={css.prueba}>
-                <input className={css.countryCheckbox} value={country.ID} onChange={handleChange} id={country.ID} name={country.name} type="checkbox" />
-                <label className={css.labelCountry} htmlFor={country.ID}>
-                  <img className={css.flag} alt="flag" src={country.img} />
-                  <span className={css.name}>{capitalizeFirstLetter(country.name)}</span>
-                </label>
+              <div key={country.ID} className={css.country}>
+                <div className={css.search}>
+                  <span className={css.name}> {capitalizeFirstLetter(country.name)}</span>
+                  <input className={css.checkbox} value={country.ID} onChange={handleChange} name={country.name} type="checkbox" />
+                </div>
+                <img className={css.flag} alt="flag" src={country.img} />
               </div>
             );
           })}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCountries } from "../../reducer";
+import { getCountries, getActivities } from "../../reducer";
 import Country from "../Country/Country";
 import css from "./Countries.module.css";
 import Pagination from "../Pagination/Pagination";
@@ -17,6 +17,8 @@ function Countries() {
 
   useEffect(() => {
     dispatch(getCountries());
+
+    dispatch(getActivities());
   }, [dispatch, filters]);
 
   const allCountries = useSelector((state) => state.countries);
@@ -45,11 +47,15 @@ function Countries() {
     if (popu) {
       filtered = popu === "l-h" ? _.sortBy(filtered, ["population"]) : _.sortBy(filtered, ["population"]).reverse();
     }
+
     if (activity) {
-      filtered = _.filter(filtered, (country) => {
+      filtered = filtered.filter((country) => {
         for (let i = 0; i < country.TouristActivities.length; i++) {
-          return country.TouristActivities[i].name === activity;
+          if (country.TouristActivities[i].name === activity) {
+            return true;
+          }
         }
+        return null;
       });
     }
     setShowedCountries(filtered);

@@ -93,23 +93,15 @@
   background-color: var(--english-violete);
 }
 
-.countryCheckbox {
-  display: none;
-}
-
-.labelCountry {
+.search {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 200px;
-  min-width: 100px;
-  box-sizing: border-box;
-  padding: 5px;
 }
 
-.labelCountry:before {
-  content: "";
+.search input {
+  margin: 0;
+  margin-left: 5px;
 }
 
 .countryCheckbox:checked + .labelCountry {
@@ -118,6 +110,16 @@
   -moz-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
 }
 
+.country {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-content: center;
+  width: 150px;
+}
+.checkbox {
+  margin: 5px 5px 0 0;
+}
 .flag {
   width: 100%;
 }
