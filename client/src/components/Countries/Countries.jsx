@@ -4,7 +4,7 @@ import { getCountries } from "../../reducer";
 import Country from "../Country/Country";
 import css from "./Countries.module.css";
 import Pagination from "../Pagination/Pagination";
-import { setFilteredCountries } from "../../actions";
+
 const _ = require("lodash");
 
 function Countries() {
@@ -20,6 +20,7 @@ function Countries() {
   }, [dispatch, filters]);
 
   const allCountries = useSelector((state) => state.countries);
+
   const { search, continents, alph, popu, activity } = filters;
 
   useEffect(() => {
@@ -52,7 +53,6 @@ function Countries() {
       });
     }
     setShowedCountries(filtered);
-    dispatch(setFilteredCountries(filtered));
   }, [filters, allCountries, search, continents, alph, activity, popu, dispatch]);
 
   const indexOfLastPost = currentPage * postsPerPage;

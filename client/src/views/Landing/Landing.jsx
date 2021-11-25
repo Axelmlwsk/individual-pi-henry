@@ -10,8 +10,10 @@ function Landing() {
 
   return (
     <div className={css.container}>
-      <button onClick={handleClick}>
-        <Link to="/countries">ENTRAR</Link>
+      <button className={css.button} onClick={handleClick}>
+        <Link className={css.link} to="/countries">
+          Enter
+        </Link>
       </button>
     </div>
   );

@@ -1,6 +1,24 @@
 const { Country, TouristActivity } = require("../db");
+const { Sequelize } = require("sequelize");
+const { Op } = require("sequelize");
 
 const getAllCountries = async (req, res) => {
+  const { name } = req.query;
+
+  if (name) {
+    const countries = await Country.findAll({
+      where: {
+        name: {
+          [Sequelize.Op.iLike]: `%${name}%`,
+        },
+      },
+    });
+    if (countries.length === 0) {
+      return res.send("Country not found");
+    }
+    return res.send(countries);
+  }
+
   const countries = await Country.findAll({ include: TouristActivity });
   res.send(countries);
 };
@@ -17,7 +35,7 @@ const searchById = async (req, res) => {
 
 const addActivity = async (req, res) => {
   const { name, difficulty, duration, season, selectedCountries } = req.body;
-  console.log(req.body);
+
   //creo la actividad con los datos traidos por el body.
   const activity = await TouristActivity.create({
     name,

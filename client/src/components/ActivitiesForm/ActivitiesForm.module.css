@@ -1,5 +1,6 @@
 .container {
   width: 100%;
+  border-radius: 50px;
 }
 
 .inputContainer {
@@ -10,13 +11,20 @@
   width: 70%;
   height: 60vh;
   margin-bottom: 20px;
+  border-radius: 25px;
 
   box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
   -webkit-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -8px 7px 44px -17px rgba(0, 0, 0, 0.75);
 }
-.container input {
+.input {
   width: 50%;
+  border: none;
+  background-color: var(--light-grey);
+  color: var(--dark-blue);
+  padding: 10px 10px;
+
+  font-stretch: condensed;
 }
 .countries {
   margin-top: 20px;
@@ -36,11 +44,53 @@
   width: 100%;
 }
 
-.searchContainer input {
-  margin-left: 20px;
+.formActivities p {
+  margin: 5px 0;
 }
+
+.formActivities span {
+  margin: 5px 0;
+}
+
+.activityContainer,
+.durationContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+}
+
+.activityContainer input,
+.durationContainer input {
+  width: 100%;
+}
+
+.difficultyContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.difficultyContainer input {
+  margin-top: 10px;
+}
+
 .red {
   color: red;
+}
+
+.button {
+  color: white;
+  background-color: var(--dark-blue);
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  padding: 10px 15px;
+}
+
+.button:hover {
+  background-color: var(--english-violete);
 }
 
 .countryCheckbox {

@@ -18,6 +18,10 @@
   margin-right: 50px;
 }
 
+.right img {
+  width: 30px;
+}
+
 .link {
   font-size: 1.2rem;
   color: var(--white);

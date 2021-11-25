@@ -1,22 +1,33 @@
-const { Country, conn } = require('../../src/db.js');
-const { expect } = require('chai');
+const { Country, db } = require("../../src/db.js");
+const { expect } = require("chai");
 
-describe('Country model', () => {
-  before(() => conn.authenticate()
-    .catch((err) => {
-      console.error('Unable to connect to the database:', err);
-    }));
-  describe('Validators', () => {
-    beforeEach(() => Country.sync({ force: true }));
-    describe('name', () => {
-      it('should throw an error if name is null', (done) => {
-        Country.create({})
-          .then(() => done(new Error('It requires a valid name')))
-          .catch(() => done());
-      });
-      it('should work when its a valid name', () => {
-        Country.create({ name: 'Argentina' });
-      });
+describe("Model: Country", () => {
+  before(() =>
+    db.authenticate().catch((err) => {
+      console.error("Unable to connect to the database:", err);
+    })
+  );
+  describe("validations", () => {
+    beforeEach(() => Country.sync({ force: false }));
+
+    it("should throw an error if ID has no length of 3", (done) => {
+      Country.create({
+        ID: "ARGE",
+        name: "argentina",
+        img: "prueba.jpg",
+        continent: "America",
+        capital: "Buenos Aires",
+        subregion: "Latin America",
+        area: "5000",
+        population: "500000",
+      })
+        .then(() => done(new Error("It requires a valid ID")))
+        .catch(() => done());
+    });
+    it("should throw error if no name is passed", () => {
+      Country.create({ ID: "ARG", name: "", img: "prueba.jpg", continent: "America", capital: "Buenos Aires", subregion: "Latin America", area: "5000", population: "500000" })
+        .then(() => done(new Error("It requires a valid ID")))
+        .catch(() => done());
     });
   });
 });
