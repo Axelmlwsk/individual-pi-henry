@@ -3,7 +3,7 @@ import Home from "./views/Home/Home.jsx";
 import TouristActivities from "./views/TouristActivities/TouristActivities";
 import CountryDetails from "./components/CountryDetails/CountryDetails";
 import Navbar from "./components/Navbar/Navbar";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Landing from "./views/Landing/Landing";
 import { Provider } from "react-redux";
 import { store } from "./store/index";
